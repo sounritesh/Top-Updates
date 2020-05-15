@@ -1,5 +1,4 @@
 package com.example.top10
-
 import android.util.Log
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserFactory
@@ -14,14 +13,16 @@ class ParseApplications {
         var status = true
         var inEntry = false
         var textValue = ""
+
         try {
             val factory = XmlPullParserFactory.newInstance()
             factory.isNamespaceAware = true
             val xpp = factory.newPullParser()
+            xpp.setInput(xmlData.reader())
             var eventType = xpp.eventType
             var currentRecord = FeedEntry()
             while (eventType != XmlPullParser.END_DOCUMENT) {
-                val tagName = xpp.name.toLowerCase() // TODO: have to introduce a safe call ?
+                val tagName = xpp.name?.toLowerCase()
                  when (eventType) {
                      XmlPullParser.START_TAG -> {
                          Log.d(tag, "parse: Starting tag for $tagName")
