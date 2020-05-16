@@ -1,43 +1,49 @@
 package com.example.top10
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 
-class FeedAdapter (context: Context, private val resource: Int, private val applications: List<FeedEntry>) : ArrayAdapter<FeedEntry>(context, resource) {
-    private val tag = "FeedAdapter"
+class ViewModel(v: View) {
+    val tvName: TextView = v.findViewById(R.id.tvName)
+    val tvArtist: TextView = v.findViewById(R.id.tvArtist)
+    val tvSummary: TextView = v.findViewById(R.id.tvSummary)
+}
+
+class FeedAdapter(
+    context: Context,
+    private val resource: Int,
+    private val applications: List<FeedEntry>
+) : ArrayAdapter<FeedEntry>(context, resource) {
+
     private val inflater = LayoutInflater.from(context)
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        Log.d(tag, "getView: called")
         val view: View
-        if (convertView == null) {
-            Log.d(tag, "getView: called with null convertView")
-            view = inflater.inflate(resource,parent,false)
-        } else {
-            Log.d(tag, "getView: called with a convertView")
-            view = convertView
-        }
+        val viewModel: ViewModel
 
-        val tvName:TextView = view.findViewById(R.id.tvName)
-        val tvArtist:TextView = view.findViewById(R.id.tvArtist)
-        val tvSummary:TextView = view.findViewById(R.id.tvSummary)
+        if (convertView == null) {
+            view = inflater.inflate(resource, parent, false)
+            viewModel = ViewModel(view)
+            view.tag = viewModel
+        } else {
+            view = convertView
+            viewModel = view.tag as ViewModel
+        }
 
         val currentApp = applications[position]
 
-        tvName.text = currentApp.name
-        tvArtist.text = currentApp.artist
-        tvSummary.text = currentApp.summary
+        viewModel.tvName.text = currentApp.name
+        viewModel.tvArtist.text = currentApp.artist
+        viewModel.tvSummary.text = currentApp.summary
 
         return view
     }
 
     override fun getCount(): Int {
-        Log.d(tag, "getCount: called")
         return applications.size
     }
 }
