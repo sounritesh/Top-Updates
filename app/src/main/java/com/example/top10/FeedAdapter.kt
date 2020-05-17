@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import coil.api.load
+import kotlinx.android.synthetic.main.list_record.view.*
 
 class ViewModel(v: View) {
     val tvName: TextView = v.findViewById(R.id.tvName)
@@ -39,6 +41,7 @@ class FeedAdapter(
         viewModel.tvName.text = currentApp.name
         viewModel.tvArtist.text = currentApp.artist
         viewModel.tvSummary.text = currentApp.summary
+        view.imageView.load(currentApp.imageURL)
         return view
     }
 
