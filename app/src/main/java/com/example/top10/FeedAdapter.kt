@@ -39,7 +39,6 @@ class FeedAdapter(
         viewModel.tvName.text = currentApp.name
         viewModel.tvArtist.text = currentApp.artist
         viewModel.tvSummary.text = currentApp.summary
-
         return view
     }
 
